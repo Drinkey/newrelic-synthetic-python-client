@@ -41,7 +41,7 @@ class NerdGraphClient:
         }
 
     def request(self, ql: str) -> Response:
-        log.debug(f"{ql=}")
+        log.trace(f"{ql=}")
         return self.session.post(
             self.config.endpoint,
             json={"query": ql},

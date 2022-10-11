@@ -52,8 +52,9 @@ class SecureCredential(NewRelicModule):
         description: str,
     ) -> Dict:
         r = self.list()
+        log.debug("Got list of credentials successfully")
         results = r["data"]["actor"]["entitySearch"]["results"]["entities"]
-        log.debug(f"List of credentials: {results}")
+        log.trace(f"List of credentials: {results}")
         if key in [x["name"] for x in results]:
             log.info(f"Key {key} exists, updating the credential")
             return self.update(key=key, value=value, description=description)
