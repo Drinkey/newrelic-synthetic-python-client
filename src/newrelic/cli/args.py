@@ -1,8 +1,10 @@
 from dataclasses import dataclass
-
-from typing import Sequence, Optional, Dict
+import pathlib
+from typing import Sequence, Dict
 import argparse
 import abc
+
+from newrelic.utils.log import log
 
 
 class Arguments(abc.ABC):
@@ -17,19 +19,33 @@ class ScriptedBrowserArguments(Arguments):
     Arguments class for the program.
     """
 
-    name: str = ""
-    status: Optional[str] = None
-    locations: Optional[str] = None
-    period: Optional[str] = None
+    monitor_name: str = ""
+    status: str = "ENABLED"
+    locations: str = "US_WEST_2,AP_NORTHEAST_1"
+    period: str = "EVERY_15_MINUTES"
     enable_screenshot: bool = True
+    script_content: str = 'const SCRIPT_NAME'
 
     def to_dict(self) -> Dict:
+        script_content = self.script_content
+        assume_file = pathlib.Path(self.script_content)
+        if assume_file.exists():
+            log.info("script content is in a file, reading its content")
+            script_content = (
+                f"{repr(assume_file.read_text())}"
+                ).replace('"', '\\"').strip("'")
+
+        bool_maps = {
+            True: "true",
+            False: "false"
+        }
         return {
-            "name": self.name,
-            "status": self.status,
-            "locations": self.locations.split(",") if self.locations else None,
-            "period": self.period,
-            "enable_screenshot": self.enable_screenshot
+            "monitor_name": self.monitor_name,
+            "status": self.status.upper(),
+            "locations": self.locations.split(",") if self.locations else [],
+            "period": self.period.upper(),
+            "enable_screenshot": bool_maps[self.enable_screenshot],
+            "script_content": script_content
         }
 
 
@@ -41,7 +57,10 @@ def parse_scripted_browser_args(
     )
     args = ScriptedBrowserArguments()
     parser.add_argument(
-        "--name", type=str, required=True, help="The Synthetic monitor name"
+        "--monitor-name",
+        type=str,
+        required=True,
+        help="The Synthetic monitor name"
     )
     parser.add_argument(
         "--status",
@@ -67,6 +86,12 @@ def parse_scripted_browser_args(
         action="store_true",
         default=args.enable_screenshot,
         help="Whether take screenshot when failure",
+    )
+    parser.add_argument(
+        "--script-content",
+        type=str,
+        default=args.script_content,
+        help="The script content or file path",
     )
     parser.parse_args(args=command, namespace=args)
     return _post_scripted_browser_args_hook(args)
@@ -107,7 +132,7 @@ def parse_secure_credential_args(
         help="The Synthetic secure credential key"
     )
     parser.add_argument(
-        "--value", type=str, required=True,
+        "--value", type=str,
         help="The Synthetic secure credential value"
     )
     parser.add_argument(
