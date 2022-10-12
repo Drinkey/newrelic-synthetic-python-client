@@ -2,7 +2,7 @@
 name = "newrelic-synthetic-python-client"
 version = "0.1.2"
 description = "NewRelic CLI"
-authors = ["Junkai Zhang <junkai.zhang@watchguard.com>"]
+authors = ["Junkai Zhang <drink3y@gmail.com>"]
 readme = "README.md"
 homepage = "https://github.com/Drinkey/newrelic-synthetic-python-client"
 repository = "https://github.com/Drinkey/newrelic-synthetic-python-client"
