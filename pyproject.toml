@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "newrelic-synthetic-python-client"
-version = "0.1.2"
+version = "0.1.3"
 description = "NewRelic CLI"
 authors = ["Junkai Zhang <drink3y@gmail.com>"]
 readme = "README.md"

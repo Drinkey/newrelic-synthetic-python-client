@@ -1,11 +1,35 @@
 # newrelic-synthetic-python-client
 Python lib to interact with New Relic Synthetic Monitors API using NerdGraph
 
+- [newrelic-synthetic-python-client](#newrelic-synthetic-python-client)
+- [Installation](#installation)
+  - [Requirements](#requirements)
+  - [Install with pip](#install-with-pip)
+  - [Development](#development)
+- [Usage Example](#usage-example)
+  - [Configuration file](#configuration-file)
+    - [Configuration file places](#configuration-file-places)
+  - [Log level](#log-level)
+  - [Secure Credential](#secure-credential)
+    - [List secure credentials](#list-secure-credentials)
+    - [Update or Create secure credentials](#update-or-create-secure-credentials)
+  - [Scripted Browser Monitors](#scripted-browser-monitors)
+    - [List scripted browser monitors](#list-scripted-browser-monitors)
+    - [Update or Create scripted browser monitor](#update-or-create-scripted-browser-monitor)
+
 # Installation
 
-## Environment
+## Requirements
 - Python 3.8 +
 - Poetry
+
+## Install with pip
+
+
+```
+pip install newrelic-synthetic-python-client
+```
+
 
 ## Development
 
