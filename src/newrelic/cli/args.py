@@ -167,7 +167,7 @@ class AlertPolicyArguments(Arguments):
         }
 
 
-def parse_alert_policy_args(
+def parse_policy_args(
     command: Sequence[str],
 ) -> AlertPolicyArguments:
     parser = argparse.ArgumentParser(

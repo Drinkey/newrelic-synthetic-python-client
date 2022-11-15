@@ -1,6 +1,8 @@
 from newrelic.nerdgraph.client import NerdGraphClient
 from newrelic.synthetic.secure_credential import SecureCredential
-from newrelic.synthetic.scripted_browser import ScriptedBrowserMonitors
+from newrelic.synthetic.scripted_browser import (
+    ScriptedBrowserMonitors,
+)
 from newrelic.synthetic.alert import AlertPolicy
 
 
@@ -9,7 +11,6 @@ class Synthetic:
         self.client = client
         self._secure_cred = None
         self._scripted_browser = None
-        self._alert_policy = None
 
     @property
     def secure_credential(self):
@@ -22,11 +23,17 @@ class Synthetic:
         if self._scripted_browser is None:
             self._scripted_browser = ScriptedBrowserMonitors(
                 client=self.client
-                )
+            )
         return self._scripted_browser
 
+
+class Alert:
+    def __init__(self, client: NerdGraphClient) -> None:
+        self.client = client
+        self._policy = None
+
     @property
-    def alert_policy(self):
-        if self._alert_policy is None:
-            self._alert_policy = AlertPolicy(client=self.client)
-        return self._alert_policy
+    def policy(self):
+        if self._policy is None:
+            self._policy = AlertPolicy(client=self.client)
+        return self._policy

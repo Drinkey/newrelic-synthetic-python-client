@@ -151,20 +151,20 @@ NR_LOG_LEVEL="INFO" python src/newrelic.py synthetic scripted_browser put --moni
 
 ### Create Alert Policy
 ```sh
-NR_LOG_LEVEL="INFO" python src/newrelic.py synthetic alert_policy list
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert policy list
 ```
 
 ### List Alert Policy
 ```sh
-NR_LOG_LEVEL="INFO" python src/newrelic.py synthetic alert_policy add --name 'policy name' --preference="PER_CONDITION"
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert policy add --name 'policy name' --preference="PER_CONDITION"
 ```
 
 ### Update Alert Policy
 ```sh
-NR_LOG_LEVEL="INFO" python src/newrelic.py synthetic alert_policy update --name "policy name" --preference "PER_POLICY" --policy-id "3715372"
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert policy update --name "policy name" --preference "PER_POLICY" --policy-id "3715372"
 ```
 
 ### Delete Alert Policy
 ```sh
-NR_LOG_LEVEL="INFO" python src/newrelic.py synthetic alert_policy delete --policy-id "3715372"
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert policy delete --policy-id "3715372"
 ```
