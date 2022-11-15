@@ -151,3 +151,55 @@ def _post_secure_credential_args_hook(
     Extra validations for the arguments.
     """
     return args
+
+
+@dataclass
+class AlertPolicyArguments(Arguments):
+    name: str = ""
+    preference: str = ""
+    policy_id: str = ""
+
+    def to_dict(self) -> Dict:
+        return {
+            "name": self.name,
+            "preference": self.preference,
+            "policy_id": self.policy_id
+        }
+
+
+def parse_policy_args(
+    command: Sequence[str],
+) -> AlertPolicyArguments:
+    parser = argparse.ArgumentParser(
+        description="newrelic client",
+    )
+    args = AlertPolicyArguments()
+    parser.add_argument(
+        "--name",
+        type=str,
+        help="The Synthetic policy name",
+    )
+    parser.add_argument(
+        "--preference",
+        type=str,
+        help=(
+            'The Synthetic policy incidentPreference, '
+            'Choose one from ["PER_POLICY", "PER_INCIDENT", "PER_CONDITION"]'
+        ),
+    )
+    parser.add_argument(
+        "--policy-id",
+        type=str,
+        help="The Synthetic policy ID",
+    ),
+    parser.parse_args(args=command, namespace=args)
+    return _post_policy_args_hook(args)
+
+
+def _post_policy_args_hook(
+    args: AlertPolicyArguments,
+) -> AlertPolicyArguments:
+    """
+    Extra validations for the arguments.
+    """
+    return args

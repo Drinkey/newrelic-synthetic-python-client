@@ -4,12 +4,13 @@ from typing import Callable, Sequence
 
 from newrelic.utils.log import log
 from newrelic.nerdgraph.client import NerdGraphClient, NerdGraphConfig
-from newrelic.synthetic import Synthetic
+from newrelic.synthetic import Synthetic, Alert
 import newrelic.cli.args as newrelic_cli
 import newrelic.utils.config as config
 
 modules = {
-        "synthetic": Synthetic
+        "synthetic": Synthetic,
+        "alert": Alert,
     }
 
 
