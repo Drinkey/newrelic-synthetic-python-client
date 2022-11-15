@@ -1,4 +1,4 @@
-class Policy:
+class Graphql:
     @staticmethod
     def add(account_id: str, preference: str, name: str) -> str:
         return (

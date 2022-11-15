@@ -3,7 +3,7 @@ from newrelic.synthetic.secure_credential import SecureCredential
 from newrelic.synthetic.scripted_browser import (
     ScriptedBrowserMonitors,
 )
-from newrelic.synthetic.alert import AlertPolicy
+from newrelic.synthetic.alert import Policy
 
 
 class Synthetic:
@@ -35,5 +35,5 @@ class Alert:
     @property
     def policy(self):
         if self._policy is None:
-            self._policy = AlertPolicy(client=self.client)
+            self._policy = Policy(client=self.client)
         return self._policy
