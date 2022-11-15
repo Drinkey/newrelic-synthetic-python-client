@@ -21,7 +21,7 @@ class Graphql:
         )
 
     @staticmethod
-    def list(account_id) -> str:
+    def list(account_id: str) -> str:
         return (
             """
         {

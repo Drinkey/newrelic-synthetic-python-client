@@ -3,7 +3,7 @@ from newrelic.synthetic.secure_credential import SecureCredential
 from newrelic.synthetic.scripted_browser import (
     ScriptedBrowserMonitors,
 )
-from newrelic.synthetic.alert import Policy
+from newrelic.alert.policy import Policy
 
 
 class Synthetic:
