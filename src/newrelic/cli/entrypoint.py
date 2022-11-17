@@ -4,9 +4,10 @@ from typing import Callable, Sequence
 
 from newrelic.utils.log import log
 from newrelic.nerdgraph.client import NerdGraphClient, NerdGraphConfig
-from newrelic.synthetic import Synthetic, Alert
+from newrelic.synthetic import Synthetic
 import newrelic.cli.args as newrelic_cli
 import newrelic.utils.config as config
+from newrelic.alert import Alert
 
 modules = {
         "synthetic": Synthetic,

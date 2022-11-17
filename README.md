@@ -21,6 +21,10 @@ Python lib to interact with New Relic Synthetic Monitors API using NerdGraph
     - [List Alert Policy](#list-alert-policy)
     - [Update Alert Policy](#update-alert-policy)
     - [Delete Alert Policy](#delete-alert-policy)
+    - [Create Alert Condition](#create-alert-condition)
+    - [List Alert Condition](#list-alert-condition)
+    - [Update Alert Condition](#update-alert-condition)
+    - [Delete Alert Condition](#delete-alert-condition)
 
 # Installation
 
@@ -151,12 +155,12 @@ NR_LOG_LEVEL="INFO" python src/newrelic.py synthetic scripted_browser put --moni
 
 ### Create Alert Policy
 ```sh
-NR_LOG_LEVEL="INFO" python src/newrelic.py alert policy list
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert policy add --name 'policy name' --preference="PER_CONDITION"
 ```
 
 ### List Alert Policy
 ```sh
-NR_LOG_LEVEL="INFO" python src/newrelic.py alert policy add --name 'policy name' --preference="PER_CONDITION"
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert policy list
 ```
 
 ### Update Alert Policy
@@ -167,4 +171,32 @@ NR_LOG_LEVEL="INFO" python src/newrelic.py alert policy update --name "policy na
 ### Delete Alert Policy
 ```sh
 NR_LOG_LEVEL="INFO" python src/newrelic.py alert policy delete --policy-id "3715372"
+```
+
+### Create Alert Condition
+```sh
+# Threshold Type Static
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert condition add  --name "auto_add_1" --policy-id "3719613"
+
+# Threshold Type Baseline
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert condition add  --name "auto_add_baseline" --policy-id "3717302" --type "baseline" --operator "ABOVE" --threshold "1" --threshold-duration "120"
+```
+
+### List Alert Condition
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert condition list
+```
+
+### Update Alert Condition
+```sh
+# Threshold Type Static 
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert condition update --condition-id "28613358" --name "auto_static_update"
+
+# Threshold Type Baseline
+NR_LOG_LEVEL="INFO" python3 src/newrelic.py alert condition update  --name "auto_add_baseline_update" --condition-id "28614376" --type "baseline" --operator "ABOVE" --threshold "1" --threshold-duration "120"
+```
+
+### Delete Alert Condition
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert condition delete --condition-id "28613141"
 ```
