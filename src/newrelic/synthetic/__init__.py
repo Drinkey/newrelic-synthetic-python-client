@@ -25,15 +25,3 @@ class Synthetic:
                 client=self.client
             )
         return self._scripted_browser
-
-
-class Alert:
-    def __init__(self, client: NerdGraphClient) -> None:
-        self.client = client
-        self._policy = None
-
-    @property
-    def policy(self):
-        if self._policy is None:
-            self._policy = Policy(client=self.client)
-        return self._policy

@@ -3,6 +3,7 @@ import abc
 import pathlib
 import json
 from typing import Dict
+import pprint
 
 from requests import Response, Session
 
@@ -41,7 +42,7 @@ class NerdGraphClient:
         }
 
     def request(self, ql: str) -> Response:
-        log.trace(f"{ql=}")
+        log.trace(f"{pprint.pprint(ql)}")
         return self.session.post(
             self.config.endpoint,
             json={"query": ql},

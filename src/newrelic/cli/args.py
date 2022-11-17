@@ -177,21 +177,19 @@ def parse_policy_args(
     parser.add_argument(
         "--name",
         type=str,
-        help="The Synthetic policy name",
+        help="The Alert policy name",
     )
     parser.add_argument(
         "--preference",
         type=str,
-        help=(
-            'The Synthetic policy incidentPreference, '
-            'Choose one from ["PER_POLICY", "PER_INCIDENT", "PER_CONDITION"]'
-        ),
+        choices=["PER_POLICY", "PER_INCIDENT", "PER_CONDITION"],
+        help="The Alert policy incidentPreference",
     )
     parser.add_argument(
         "--policy-id",
         type=str,
-        help="The Synthetic policy ID",
-    ),
+        help="The Alert policy ID",
+    )
     parser.parse_args(args=command, namespace=args)
     return _post_policy_args_hook(args)
 
@@ -199,6 +197,108 @@ def parse_policy_args(
 def _post_policy_args_hook(
     args: AlertPolicyArguments,
 ) -> AlertPolicyArguments:
+    """
+    Extra validations for the arguments.
+    """
+    return args
+
+
+@dataclass
+class ConditionArguments(Arguments):
+    policy_id: str = ""
+    name: str = ""
+    nrql: str = ("SELECT uniqueCount(host) FROM Transaction WHERE "
+                 "appName='my-app-name'")
+    condition_id: str = ""
+    type: str = "static"
+    baseline_direction: str = "UPPER_ONLY"
+    window_duration: str = "60"
+    streaming_method: str = "EVENT_FLOW"
+    delay: str = "60"
+    threshold: str = "0.9"
+    threshold_duration: str = "60"
+    threshold_occurrences: str = "AT_LEAST_ONCE"
+    operator: str = "ABOVE_OR_EQUALS"
+    priority: str = "CRITICAL"
+    violation_time: str = "86400"
+
+    def to_dict(self) -> Dict:
+        return {
+            "policy_id": self.policy_id,
+            "name": self.name,
+            "nrql": self.nrql,
+            "direction": self.baseline_direction,
+            "window_duration": self.window_duration,
+            "streaming_method": self.streaming_method,
+            "delay": self.delay,
+            "threshold": self.threshold,
+            "threshold_duration": self.threshold_duration,
+            "threshold_occurrences": self.threshold_occurrences,
+            "operator": self.operator,
+            "priority": self.priority,
+            "violation_time": self.violation_time,
+            "type_": self.type,
+            "condition_id": self.condition_id,
+        }
+
+
+def parse_condition_args(
+    command: Sequence[str],
+) -> ConditionArguments:
+    parser = argparse.ArgumentParser(
+        description="newrelic client",
+    )
+    args = ConditionArguments()
+    parser.add_argument(
+        "--name",
+        type=str,
+        help="The Alert condition name",
+    )
+    parser.add_argument(
+        "--type",
+        type=str,
+        choices=["baseline", "static"],
+        help='The Alert condition threshold type, default static type',
+    )
+    parser.add_argument(
+        "--nrql",
+        type=str,
+        help="The condition nrql query",
+    )
+    parser.add_argument(
+        "--policy-id",
+        type=str,
+        help="The Alert policy ID",
+    )
+    parser.add_argument(
+        "--threshold",
+        type=str,
+        help=("The Alert condition threshold, baseline type threshold must be "
+              "Greater than or equal to 1 "),
+    )
+    parser.add_argument(
+        "--threshold-duration",
+        type=str,
+        help=("The Alert condition threshold duration, baseline type threshold "
+              "duration must be Greater than or equal to 120s"),
+    )
+    parser.add_argument(
+        "--operator",
+        type=str,
+        help="The Alert condition operator",
+    )
+    parser.add_argument(
+        "--condition-id",
+        type=str,
+        help="The Alert condition ID",
+    )
+    parser.parse_args(args=command, namespace=args)
+    return _post_condition_args_hook(args)
+
+
+def _post_condition_args_hook(
+    args: ConditionArguments,
+) -> ConditionArguments:
     """
     Extra validations for the arguments.
     """
