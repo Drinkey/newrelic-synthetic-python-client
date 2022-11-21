@@ -279,8 +279,10 @@ def parse_condition_args(
     parser.add_argument(
         "--threshold-duration",
         type=str,
-        help=("The Alert condition threshold duration, baseline type threshold "
-              "duration must be Greater than or equal to 120s"),
+        help=(
+            "The Alert condition threshold duration, baseline type threshold "
+            "duration must be Greater than or equal to 120s"
+        ),
     )
     parser.add_argument(
         "--operator",
@@ -299,6 +301,181 @@ def parse_condition_args(
 def _post_condition_args_hook(
     args: ConditionArguments,
 ) -> ConditionArguments:
+    """
+    Extra validations for the arguments.
+    """
+    return args
+
+
+@dataclass
+class AlertDestinationsArguments(Arguments):
+    name: str = ""
+    destination_id: str = ""
+    email: str = "email@example.com"
+    type: str = "EMAIL"
+
+    def to_dict(self) -> Dict:
+        return {
+            "name": self.name,
+            "email": self.email,
+            "destination_id": self.destination_id,
+        }
+
+
+def parse_destinations_args(
+    command: Sequence[str],
+) -> AlertDestinationsArguments:
+    parser = argparse.ArgumentParser(
+        description="newrelic client",
+    )
+    args = AlertDestinationsArguments()
+    parser.add_argument(
+        "--name",
+        type=str,
+        help="The Alert destinations name",
+    )
+    parser.add_argument(
+        "--email",
+        type=str,
+        help="The Alert destinations email",
+    )
+    parser.add_argument(
+        "--destination-id",
+        type=str,
+        help="The Alert destinations ID",
+    )
+    parser.parse_args(args=command, namespace=args)
+    return _post_destinations_args_hook(args)
+
+
+def _post_destinations_args_hook(
+    args: AlertDestinationsArguments,
+) -> AlertDestinationsArguments:
+    """
+    Extra validations for the arguments.
+    """
+    return args
+
+
+@dataclass
+class AlertChannelsArguments(Arguments):
+    name: str = ""
+    channel_id: str = ""
+    destination_id: str = ""
+    type: str = "EMAIL"
+    product: str = "IINT"
+
+    def to_dict(self) -> Dict:
+        return {
+            "name": self.name,
+            "channel_id": self.channel_id,
+            "destination_id": self.destination_id,
+            "type_": self.type,
+            "product": self.product,
+        }
+
+
+def parse_channels_args(
+    command: Sequence[str],
+) -> AlertChannelsArguments:
+    parser = argparse.ArgumentParser(
+        description="newrelic client",
+    )
+    args = AlertChannelsArguments()
+    parser.add_argument(
+        "--name",
+        type=str,
+        help="The Alert channels name",
+    )
+    parser.add_argument(
+        "--channel-id",
+        type=str,
+        help="The Alert channels ID",
+    )
+    parser.add_argument(
+        "--destination-id",
+        type=str,
+        help="The Alert destination ID",
+    )
+    parser.add_argument(
+        "--type",
+        type=str,
+        help="The Alert channels type",
+    )
+    parser.parse_args(args=command, namespace=args)
+    return _post_channels_args_hook(args)
+
+
+def _post_channels_args_hook(
+    args: AlertChannelsArguments,
+) -> AlertChannelsArguments:
+    """
+    Extra validations for the arguments.
+    """
+    return args
+
+
+@dataclass
+class AlertWorkflowsArguments(Arguments):
+    name: str = ""
+    policy_id: str = ""
+    workflow_id: str = ""
+    channel_id: str = ""
+    attribute: str = "labels.policyIds"
+    type: str = "EMAIL"
+    operator: str = "EXACTLY_MATCHES"
+
+    def to_dict(self) -> Dict:
+        return {
+            "name": self.name,
+            "policy_id": self.policy_id,
+            "type_": self.type,
+            "attribute": self.attribute,
+            "operator": self.operator,
+            "workflow_id": self.workflow_id,
+            "channel_id": self.channel_id,
+        }
+
+
+def parse_workflows_args(
+    command: Sequence[str],
+) -> AlertWorkflowsArguments:
+    parser = argparse.ArgumentParser(
+        description="newrelic client",
+    )
+    args = AlertWorkflowsArguments()
+    parser.add_argument(
+        "--name",
+        type=str,
+        help="The Alert workflows name",
+    )
+    parser.add_argument(
+        "--policy-id",
+        type=str,
+        help="The Alert policy ID",
+    )
+    parser.add_argument(
+        "--type",
+        type=str,
+        help="The Alert workflows type",
+    )
+    parser.add_argument(
+        "--workflow-id",
+        type=str,
+        help="The Alert workflows ID",
+    )
+    parser.add_argument(
+        "--channel-id",
+        type=str,
+        help="The Alert channel ID",
+    )
+    parser.parse_args(args=command, namespace=args)
+    return _post_workflows_args_hook(args)
+
+
+def _post_workflows_args_hook(
+    args: AlertWorkflowsArguments,
+) -> AlertWorkflowsArguments:
     """
     Extra validations for the arguments.
     """

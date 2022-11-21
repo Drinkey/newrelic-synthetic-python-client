@@ -25,6 +25,21 @@ Python lib to interact with New Relic Synthetic Monitors API using NerdGraph
     - [List Alert Condition](#list-alert-condition)
     - [Update Alert Condition](#update-alert-condition)
     - [Delete Alert Condition](#delete-alert-condition)
+  - [CRUD Alert Destinations](#crud-alert-destinations)
+    - [Create Alert Destinations](#create-alert-destinations)
+    - [List Alert Destinations](#list-alert-destinations)
+    - [Update Alert Destinations](#update-alert-destinations)
+    - [Delete Alert Destinations](#delete-alert-destinations)
+  - [CRUD Alert Channels](#crud-alert-channels)
+    - [Create Alert Channels](#create-alert-channels)
+    - [List Alert Channels](#list-alert-channels)
+    - [Update Alert Channels](#update-alert-channels)
+    - [Delete Alert Channels](#delete-alert-channels)
+  - [CRUD Alert Workflows](#crud-alert-workflows)
+    - [Create Alert Workflows](#create-alert-workflows)
+    - [List Alert Workflows](#list-alert-workflows)
+    - [Update Alert Workflows](#update-alert-workflows)
+    - [Delete Alert Workflows](#delete-alert-workflows)
 
 # Installation
 
@@ -193,10 +208,89 @@ NR_LOG_LEVEL="INFO" python src/newrelic.py alert condition list
 NR_LOG_LEVEL="INFO" python src/newrelic.py alert condition update --condition-id "28613358" --name "auto_static_update"
 
 # Threshold Type Baseline
-NR_LOG_LEVEL="INFO" python3 src/newrelic.py alert condition update  --name "auto_add_baseline_update" --condition-id "28614376" --type "baseline" --operator "ABOVE" --threshold "1" --threshold-duration "120"
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert condition update  --name "auto_add_baseline_update" --condition-id "28614376" --type "baseline" --operator "ABOVE" --threshold "1" --threshold-duration "120"
 ```
 
 ### Delete Alert Condition
+
 ```sh
 NR_LOG_LEVEL="INFO" python src/newrelic.py alert condition delete --condition-id "28613141"
+```
+
+## CRUD Alert Destinations
+
+### Create Alert Destinations
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert destinations add --name "auto_add_1" --email "test@example.com" 
+```
+
+### List Alert Destinations
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert destinations list
+```
+
+### Update Alert Destinations
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert destinations update --name "auto_add_update" --destinations-id "You-Destination-ID"
+```
+
+### Delete Alert Destinations
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert destinations delete --destinations-id "You-Destination-ID"
+```
+
+## CRUD Alert Channels
+
+### Create Alert Channels
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert channels add --name "auto_channel_1" --destination-id "You-Destination-ID"
+```
+
+### List Alert Channels
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert channels list
+```
+
+### Update Alert Channels
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert channels update --name "auto_channel_update_1" --channel-id "You-Channel-ID"
+```
+
+### Delete Alert Channels
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert channels delete  --channel-id  "You-Channel-ID"
+```
+
+## CRUD Alert Workflows
+
+### Create Alert Workflows
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert workflows add --name "auto_workflow_add_1" --policy-id "You-Policy-ID" --channel-id  "You-Channel-ID"
+```
+
+### List Alert Workflows
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert workflows list --type "EMAIL"
+```
+
+### Update Alert Workflows
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert workflows update --name "auto_workflow_update_1" --workflow-id "You-Workflow-ID"
+```
+
+### Delete Alert Workflows
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py alert workflows delete  --workflow-id  "You-Workflow-ID"
 ```
