@@ -70,7 +70,7 @@ class Graphql:
         )
 
     @staticmethod
-    def list(account_id: str, **kwargs) -> str:
+    def list(account_id: str) -> str:
         return (
             """
             {
@@ -79,9 +79,7 @@ class Graphql:
             + account_id
             + """) {
                 aiWorkflows {
-                    workflows(filters: {destinationType: """
-            + kwargs["type_"]
-            + """}) {
+                    workflows(filters: {destinationType: EMAIL}) {
                     entities {
                         id
                         name
