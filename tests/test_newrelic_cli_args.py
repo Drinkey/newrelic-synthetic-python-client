@@ -26,14 +26,3 @@ def test_exception_not_found_account_file():
     with pytest.raises(FileNotFoundError) as err:
         script_browser.merge_content()
     assert "Not found" in str(err)
-
-
-def test_exception_not_newline_account_file():
-    script_browser = ScriptedBrowserArguments(
-        account_file=str(
-            PurePath(Path(__file__).parent, "data", "account_no_newline.js")
-        )
-    )
-    with pytest.raises(ValueError) as err:
-        script_browser.merge_content()
-    assert "The account content must end in " in str(err)

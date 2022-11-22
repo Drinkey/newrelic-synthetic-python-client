@@ -53,9 +53,6 @@ class ScriptedBrowserArguments(Arguments):
             f"{repr(account_file.read_text())}".strip("'")
         )
 
-        if account_content.endswith("\\n") is False:
-            raise ValueError(f"The account content must end in \\n. {account_content=}")
-
         script_content = self.script_content
         assume_file = pathlib.Path(self.script_content)
         if assume_file.exists():
