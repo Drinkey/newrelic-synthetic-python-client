@@ -4,7 +4,7 @@ from typing import Sequence, Dict
 import argparse
 import abc
 
-from newrelic.utils.log import log
+from src.newrelic.utils.log import log
 
 
 class Arguments(abc.ABC):
@@ -20,6 +20,7 @@ class ScriptedBrowserArguments(Arguments):
     """
 
     monitor_name: str = ""
+    account_file: str = ""
     status: str = "ENABLED"
     locations: str = "US_WEST_2,AP_NORTHEAST_1"
     period: str = "EVERY_15_MINUTES"
@@ -27,13 +28,7 @@ class ScriptedBrowserArguments(Arguments):
     script_content: str = 'const SCRIPT_NAME'
 
     def to_dict(self) -> Dict:
-        script_content = self.script_content
-        assume_file = pathlib.Path(self.script_content)
-        if assume_file.exists():
-            log.info("script content is in a file, reading its content")
-            script_content = (
-                f"{repr(assume_file.read_text())}"
-                ).replace('"', '\\"').strip("'")
+        script_content = self.merge_content()
 
         bool_maps = {
             True: "true",
@@ -47,6 +42,29 @@ class ScriptedBrowserArguments(Arguments):
             "enable_screenshot": bool_maps[self.enable_screenshot],
             "script_content": script_content
         }
+
+    def merge_content(self) -> str:
+        account_file = pathlib.Path(self.account_file)
+        if account_file.exists() is False:
+            raise FileNotFoundError(f"Not found {account_file}")
+
+        log.info("Reading account content")
+        account_content = (
+            f"{repr(account_file.read_text())}".strip("'")
+        )
+
+        if account_content.endswith("\\n") is False:
+            raise ValueError(f"The account content must end in \\n. {account_content=}")
+
+        script_content = self.script_content
+        assume_file = pathlib.Path(self.script_content)
+        if assume_file.exists():
+            log.info("script content is in a file, reading its content")
+            script_content = (
+                f"{repr(assume_file.read_text())}"
+                ).replace('"', '\\"').strip("'")
+
+        return f"{account_content}{script_content}"
 
 
 def parse_scripted_browser_args(
@@ -92,6 +110,12 @@ def parse_scripted_browser_args(
         type=str,
         default=args.script_content,
         help="The script content or file path",
+    )
+    parser.add_argument(
+        "--account-file",
+        type=str,
+        default=args.script_content,
+        help="The account file path",
     )
     parser.parse_args(args=command, namespace=args)
     return _post_scripted_browser_args_hook(args)

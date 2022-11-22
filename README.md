@@ -16,11 +16,13 @@ Python lib to interact with New Relic Synthetic Monitors API using NerdGraph
   - [Scripted Browser Monitors](#scripted-browser-monitors)
     - [List scripted browser monitors](#list-scripted-browser-monitors)
     - [Update or Create scripted browser monitor](#update-or-create-scripted-browser-monitor)
+    - [Update scripted browser monitor with account](#update-scripted-browser-monitor-with-account)
   - [CRUD Alert Policy](#crud-alert-policy)
     - [Create Alert Policy](#create-alert-policy)
     - [List Alert Policy](#list-alert-policy)
     - [Update Alert Policy](#update-alert-policy)
     - [Delete Alert Policy](#delete-alert-policy)
+  - [CRUD Alert condition](#crud-alert-condition)
     - [Create Alert Condition](#create-alert-condition)
     - [List Alert Condition](#list-alert-condition)
     - [Update Alert Condition](#update-alert-condition)
@@ -166,6 +168,13 @@ NR_LOG_LEVEL="TRACE" python src/newrelic.py synthetic scripted_browser list
 NR_LOG_LEVEL="INFO" python src/newrelic.py synthetic scripted_browser put --monitor-name "AUTO CREATE" 
 ```
 
+### Update scripted browser monitor with account
+
+```sh
+python src/newrelic.py synthetic scripted_browser put --monitor-name "test-demo1" --status "disabled" --script-content "You Script file Path" --account-file "You Account File Path"
+```
+
+
 ## CRUD Alert Policy
 
 ### Create Alert Policy
@@ -187,6 +196,8 @@ NR_LOG_LEVEL="INFO" python src/newrelic.py alert policy update --name "policy na
 ```sh
 NR_LOG_LEVEL="INFO" python src/newrelic.py alert policy delete --policy-id "3715372"
 ```
+
+## CRUD Alert condition
 
 ### Create Alert Condition
 ```sh
