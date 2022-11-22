@@ -171,7 +171,7 @@ NR_LOG_LEVEL="INFO" python src/newrelic.py synthetic scripted_browser put --moni
 ### Update scripted browser monitor with account
 
 ```sh
-python src/newrelic.py synthetic scripted_browser put --monitor-name "test-demo1" --status "disabled" --script-content "You Script file Path" --account-file "You Account File Path"
+python src/newrelic.py synthetic scripted_browser put --monitor-name "You Scripted Monitor Name"  --script-content "You Script Path" --script-content "You Script Path"
 ```
 
 
