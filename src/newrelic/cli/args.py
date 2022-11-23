@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import pathlib
-from typing import Sequence, Dict
+from typing import Sequence, Dict, Optional, List
 import argparse
 import abc
 
@@ -24,16 +24,12 @@ class ScriptedBrowserArguments(Arguments):
     locations: str = "US_WEST_2,AP_NORTHEAST_1"
     period: str = "EVERY_15_MINUTES"
     enable_screenshot: bool = True
-    script_content: str = 'const SCRIPT_NAME'
+    script_content: Optional[List[str]] = None
 
     def to_dict(self) -> Dict:
         script_content = self.script_content
-        assume_file = pathlib.Path(self.script_content)
-        if assume_file.exists():
-            log.info("script content is in a file, reading its content")
-            script_content = (
-                f"{repr(assume_file.read_text())}"
-                ).replace('"', '\\"').strip("'")
+        if script_content is not None:
+            script_content = self.merge_content()
 
         bool_maps = {
             True: "true",
@@ -45,12 +41,27 @@ class ScriptedBrowserArguments(Arguments):
             "locations": self.locations.split(",") if self.locations else [],
             "period": self.period.upper(),
             "enable_screenshot": bool_maps[self.enable_screenshot],
-            "script_content": script_content
+            "script_content": script_content,
         }
+
+    def merge_content(self) -> str:
+        final_script_content = []
+        for script_content in self.script_content:
+            assume_file = pathlib.Path(script_content)
+            if assume_file.exists():
+                log.info("script content is in a file, reading its content")
+                script_content = (
+                    (f"{repr(assume_file.read_text())}")
+                    .replace('"', '\\"')
+                    .strip("'")
+                )
+            final_script_content.append(script_content)
+
+        return "".join(final_script_content)
 
 
 def parse_scripted_browser_args(
-    command: Sequence[str]
+    command: Sequence[str],
 ) -> ScriptedBrowserArguments:
     parser = argparse.ArgumentParser(
         description="newrelic client",
@@ -90,7 +101,7 @@ def parse_scripted_browser_args(
     parser.add_argument(
         "--script-content",
         type=str,
-        default=args.script_content,
+        action='append',
         help="The script content or file path",
     )
     parser.parse_args(args=command, namespace=args)

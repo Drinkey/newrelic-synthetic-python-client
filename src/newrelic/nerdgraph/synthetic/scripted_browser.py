@@ -94,7 +94,7 @@ class Graphql:
         period: str,
         script_content: str,
         status: Literal["ENABLED", "DISABLED", "MUTED"],
-        enable_screenshot: Literal["true", "false"]
+        enable_screenshot: Literal["true", "false"],
     ) -> str:
         valid_periods = [
             "EVERY_MINUTE",
@@ -116,7 +116,15 @@ class Graphql:
             f"Value of status: {status} is not valid,"
             f"valid status are {valid_status}."
         )
-        return """
+
+        script_content = (
+            """script: \"""" + script_content + """\""""
+            if script_content
+            else """"""
+        )
+
+        return (
+            """
         mutation {
             syntheticsUpdateScriptBrowserMonitor (
             guid: \"""" + guid + """\",
@@ -131,7 +139,7 @@ class Graphql:
                     runtimeTypeVersion: "100",
                     scriptLanguage: "JAVASCRIPT"
                     }
-                    script: \"""" + script_content + """\",
+                    """ + script_content + """
                     status: """ + status + """,
                     advancedOptions: {
                     enableScreenshotOnFailureAndScript: """ + enable_screenshot + """
@@ -145,6 +153,7 @@ class Graphql:
             }
         }
         """
+        )
 
     @staticmethod
     def get_script(account_id: str, guid: str):
