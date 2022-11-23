@@ -25,10 +25,14 @@ class ScriptedBrowserArguments(Arguments):
     locations: str = "US_WEST_2,AP_NORTHEAST_1"
     period: str = "EVERY_15_MINUTES"
     enable_screenshot: bool = True
-    script_content: List[str] = field(default_factory=list)
+    script_content: List[str] = field(
+        default_factory=lambda: None
+    )
 
     def to_dict(self) -> Dict:
-        script_content = self.merge_content()
+        script_content = self.script_content
+        if script_content:
+            script_content = self.merge_content()
 
         bool_maps = {
             True: "true",
@@ -101,7 +105,6 @@ def parse_scripted_browser_args(
         "--script-content",
         type=str,
         action='append',
-        required=True,
         help="The script content or file path",
     )
     parser.parse_args(args=command, namespace=args)
