@@ -1,9 +1,8 @@
 from dataclasses import dataclass
 import pathlib
-from typing import Sequence, Dict, Optional
+from typing import Sequence, Dict, Optional, List
 import argparse
 import abc
-from typing import List
 
 from newrelic.utils.log import log
 
