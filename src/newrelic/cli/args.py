@@ -1,11 +1,11 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 import pathlib
-from typing import Sequence, Dict
+from typing import Sequence, Dict, Optional
 import argparse
 import abc
 from typing import List
 
-from src.newrelic.utils.log import log
+from newrelic.utils.log import log
 
 
 class Arguments(abc.ABC):
@@ -25,13 +25,11 @@ class ScriptedBrowserArguments(Arguments):
     locations: str = "US_WEST_2,AP_NORTHEAST_1"
     period: str = "EVERY_15_MINUTES"
     enable_screenshot: bool = True
-    script_content: List[str] = field(
-        default_factory=lambda: None
-    )
+    script_content: Optional[List[str]] = None
 
     def to_dict(self) -> Dict:
         script_content = self.script_content
-        if script_content:
+        if script_content is not None:
             script_content = self.merge_content()
 
         bool_maps = {

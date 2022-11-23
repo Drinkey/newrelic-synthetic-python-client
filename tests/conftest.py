@@ -3,7 +3,7 @@ import json
 
 import pytest
 
-from src.newrelic.nerdgraph.client import NerdGraphClient, NerdGraphConfig
+from newrelic.nerdgraph.client import NerdGraphClient, NerdGraphConfig
 
 
 @pytest.fixture(scope="session")

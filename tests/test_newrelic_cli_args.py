@@ -1,6 +1,6 @@
 from pathlib import PurePath, Path
 
-from src.newrelic.cli.args import ScriptedBrowserArguments
+from newrelic.cli.args import ScriptedBrowserArguments
 
 
 def test_merge_content():

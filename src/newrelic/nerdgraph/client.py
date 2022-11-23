@@ -7,7 +7,7 @@ import pprint
 
 from requests import Response, Session
 
-from src.newrelic.utils.log import log
+from newrelic.utils.log import log
 
 
 @dataclass
