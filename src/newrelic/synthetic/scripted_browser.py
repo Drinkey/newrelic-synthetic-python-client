@@ -86,7 +86,7 @@ class ScriptedBrowserMonitors(NewRelicModule):
         results = r["data"]["actor"]["entitySearch"]["results"]["entities"]
         log.trace(f"List of scripted browser monitors: {results}")
         if monitor_name in [x["name"] for x in results]:
-            log.info(f"Monitor {monitor_name} exists, updating the monitor")
+            log.debug(f"Monitor {monitor_name} exists, updating the monitor")
             return self.update(
                 monitor_name=monitor_name,
                 locations=locations,
@@ -95,7 +95,7 @@ class ScriptedBrowserMonitors(NewRelicModule):
                 status=status,
                 enable_screenshot=enable_screenshot
                 )
-        log.info(
+        log.debug(
             f"Monitor {monitor_name} does not exist, create a new monitor"
             )
         return self.add(

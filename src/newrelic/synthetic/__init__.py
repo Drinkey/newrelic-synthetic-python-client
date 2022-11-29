@@ -3,7 +3,7 @@ from newrelic.synthetic.secure_credential import SecureCredential
 from newrelic.synthetic.scripted_browser import (
     ScriptedBrowserMonitors,
 )
-from newrelic.alert.policy import Policy
+from newrelic.synthetic.service_level import ServiceLevel
 
 
 class Synthetic:
@@ -11,6 +11,7 @@ class Synthetic:
         self.client = client
         self._secure_cred = None
         self._scripted_browser = None
+        self._service_level = None
 
     @property
     def secure_credential(self):
@@ -25,3 +26,9 @@ class Synthetic:
                 client=self.client
             )
         return self._scripted_browser
+
+    @property
+    def service_level(self):
+        if self._service_level is None:
+            self._service_level = ServiceLevel(client=self.client)
+        return self._service_level

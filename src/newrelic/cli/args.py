@@ -49,7 +49,7 @@ class ScriptedBrowserArguments(Arguments):
         for script_content in self.script_content:
             assume_file = pathlib.Path(script_content)
             if assume_file.exists():
-                log.info("script content is in a file, reading its content")
+                log.debug("script content is in a file, reading its content")
                 script_content = (
                     (f"{repr(assume_file.read_text())}")
                     .replace('"', '\\"')
@@ -277,6 +277,16 @@ def parse_condition_args(
         help="The condition nrql query",
     )
     parser.add_argument(
+        "--delay",
+        type=str,
+        help="The delay of signal settings",
+    )
+    parser.add_argument(
+        "--window-duration",
+        type=str,
+        help="The window duration of signal settings",
+    )
+    parser.add_argument(
         "--policy-id",
         type=str,
         help="The Alert policy ID",
@@ -293,6 +303,14 @@ def parse_condition_args(
         help=(
             "The Alert condition threshold duration, baseline type threshold "
             "duration must be Greater than or equal to 120s"
+        ),
+    )
+    parser.add_argument(
+        "--threshold-occurrences",
+        type=str,
+        choices=["AT_LEAST_ONCE", "ALL"],
+        help=(
+            "The Alert condition threshold occurrences"
         ),
     )
     parser.add_argument(
@@ -487,6 +505,74 @@ def parse_workflows_args(
 def _post_workflows_args_hook(
     args: AlertWorkflowsArguments,
 ) -> AlertWorkflowsArguments:
+    """
+    Extra validations for the arguments.
+    """
+    return args
+
+
+@dataclass
+class ServiceLevelArguments(Arguments):
+    guid: str = ""
+    monitor_name: str = ""
+    name: str = ""
+    indicators_id: str = ""
+    count: str = "7"
+    target: str = "99.9"
+    unit: str = "DAY"
+
+    def to_dict(self) -> Dict:
+        return {
+            "guid": self.guid,
+            "monitor_name": self.monitor_name,
+            "name": self.name,
+            "count": self.count,
+            "unit": self.unit,
+            "target": self.target,
+            "indicators_id": self.indicators_id,
+        }
+
+
+def parse_service_level_args(
+    command: Sequence[str],
+) -> ServiceLevelArguments:
+    parser = argparse.ArgumentParser(
+        description="newrelic client",
+    )
+    args = ServiceLevelArguments()
+    parser.add_argument(
+        "--monitor-name",
+        type=str,
+        help="The synthetic monitor name",
+    )
+    parser.add_argument(
+        "--name",
+        type=str,
+        help="The synthetic service level name",
+    )
+    parser.add_argument(
+        "--count",
+        type=str,
+        choices=["1", "7", "28"],
+        help="The synthetic service level time window count",
+    )
+    parser.add_argument(
+        "--target",
+        type=str,
+        help="The synthetic service level target",
+    )
+    parser.add_argument(
+        "--indicators-id",
+        type=str,
+        help="The synthetic service level indicators ID",
+    )
+    parser.parse_args(args=command, namespace=args)
+    return _post_service_level_args_hook(args)
+
+
+def _post_service_level_args_hook(
+    args: ServiceLevelArguments,
+) -> ServiceLevelArguments:
     """
     Extra validations for the arguments.
     """

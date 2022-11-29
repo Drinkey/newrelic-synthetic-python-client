@@ -39,5 +39,5 @@ def get_json_file() -> pathlib.Path:
             log.debug(f"File {_p} exist, overwrite the previous value {p}")
             p = _p
     assert p is not None, "Unable to find any configuration file"
-    log.info(f"Using file {p} as configuration")
+    log.debug(f"Using file {p} as configuration")
     return p
