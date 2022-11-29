@@ -42,6 +42,10 @@ Python lib to interact with New Relic Synthetic Monitors API using NerdGraph
     - [List Alert Workflows](#list-alert-workflows)
     - [Update Alert Workflows](#update-alert-workflows)
     - [Delete Alert Workflows](#delete-alert-workflows)
+  - [Service Level](#service-level)
+    - [Create Synthetic Service Level](#create-synthetic-service-level)
+    - [List Synthetic Service Level](#list-synthetic-service-level)
+    - [Update Synthetic Service Level](#update-synthetic-service-level)
 
 # Installation
 
@@ -304,4 +308,24 @@ NR_LOG_LEVEL="INFO" python src/newrelic.py alert workflows update --name "auto_w
 
 ```sh
 NR_LOG_LEVEL="INFO" python src/newrelic.py alert workflows delete  --workflow-id  "You-Workflow-ID"
+```
+
+## Service Level
+
+### Create Synthetic Service Level
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py synthetic service_level add --monitor-name "You-monitor-name" --name "You-service-level-name"
+```
+
+### List Synthetic Service Level
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py synthetic service_level list --monitor-name "You-monitor-name"
+```
+
+### Update Synthetic Service Level
+
+```sh
+NR_LOG_LEVEL="INFO" python src/newrelic.py synthetic service_level update --indicators-id "You-indicators-id" --count "1"
 ```

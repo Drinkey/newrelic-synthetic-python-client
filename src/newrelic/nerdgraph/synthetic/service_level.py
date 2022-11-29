@@ -40,14 +40,13 @@ class Graphql:
 
     @staticmethod
     def update(
-        indicators_id: str,
         **kwargs,
     ) -> str:
         return (
             """mutation {
             serviceLevelUpdate(
                 id: \""""
-            + indicators_id
+            + kwargs["indicators_id"]
             + """\"
                 indicator: {
                 objectives: {
