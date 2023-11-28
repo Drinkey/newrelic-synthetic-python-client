@@ -8,7 +8,7 @@ import newrelic.nerdgraph.synthetic.scripted_browser \
 
 class ScriptedBrowserMonitors(NewRelicModule):
     def list(self) -> Dict:
-        graphql = scripted_browser.Graphql.list()
+        graphql = scripted_browser.Graphql.list(account_id=self.client.account_id)
         r = self.client.request(ql=graphql)
         return r.json()
 
