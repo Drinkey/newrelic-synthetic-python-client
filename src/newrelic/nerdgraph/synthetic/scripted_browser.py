@@ -3,10 +3,10 @@ from typing import List, Literal
 
 class Graphql:
     @staticmethod
-    def list() -> str:
+    def list(account_id: str) -> str:
         return """{
             actor {
-                entitySearch(query: "domain = 'SYNTH' AND type = 'MONITOR'") {
+                entitySearch(query: "domain = 'SYNTH' AND type = 'MONITOR' AND accountId = '"""+ account_id +"""'") {
                 results {
                     entities {
                     ... on SyntheticMonitorEntityOutline {
