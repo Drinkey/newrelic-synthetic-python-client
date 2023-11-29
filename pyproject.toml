@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "newrelic-synthetic-python-client"
-version = "0.2.0"
+version = "0.3.1"
 description = "NewRelic CLI"
 authors = ["Junkai Zhang <drink3y@gmail.com>"]
 readme = "README.md"
@@ -14,6 +14,10 @@ packages = [
 
 [tool.poetry.scripts]
 newrelic = "newrelic.cli.entrypoint:main"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
 
 [tool.poetry.dependencies]
 python = "^3.8"
